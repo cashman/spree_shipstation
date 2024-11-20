@@ -7,6 +7,21 @@ module SpreeShipstation
     DATE_FORMAT = "%m/%d/%Y %H:%M"
 
     # rubocop:disable all
+    def self.order_status(shipment_state)
+      case shipment_state
+      when 'ready'
+        'paid'
+      when 'pending'
+        'on_hold'
+      when 'shipped'
+        'shipped'
+      when 'cancelled'
+        'cancelled'
+      else
+        shipment_state
+      end
+    end
+
     def self.address(xml, order, type)
       name = "#{type.to_s.titleize}To"
       address = order.send("#{type}_address")

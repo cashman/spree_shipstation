@@ -8,13 +8,13 @@ xml.Orders(pages: (@shipments.total_count / 50.0).ceil) {
     xml.Order {
       xml.OrderID shipment.id
       xml.OrderNumber shipment.number
-      xml.OrderDate order.completed_at.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
-      xml.OrderStatus shipment.state
-      xml.LastModified [order.completed_at, shipment.updated_at].max.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
+      xml.OrderDate order.completed_at.utc.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
+      xml.OrderStatus SpreeShipstation::ExportHelper.order_status(shipment.state)
+      xml.LastModified [order.completed_at, shipment.updated_at].max.utc.strftime(SpreeShipstation::ExportHelper::DATE_FORMAT)
       xml.ShippingMethod shipment.shipping_method.try(:name)
-      xml.OrderTotal order.total
-      xml.TaxAmount order.tax_total
-      xml.ShippingAmount order.ship_total
+      xml.OrderTotal 0 # order.total
+      xml.TaxAmount 0 # order.tax_total
+      xml.ShippingAmount 0 # order.ship_total
       xml.CustomField1 order.number
 
       xml.Customer do
@@ -33,7 +33,7 @@ xml.Orders(pages: (@shipments.total_count / 50.0).ceil) {
             xml.Weight variant.weight.to_f
             xml.WeightUnits SpreeShipstation.configuration.weight_units
             xml.Quantity line.quantity
-            xml.UnitPrice line.price
+            xml.UnitPrice 0 # line.price
 
             if variant.option_values.present?
               xml.Options {
