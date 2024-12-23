@@ -16,7 +16,9 @@ xml.Orders(pages: (@shipments.total_count / 50.0).ceil) {
       xml.TaxAmount 0 # order.tax_total
       xml.ShippingAmount 0 # order.ship_total
       xml.CustomField1 order.number
-      xml.CustomField2 order.channel
+      xml.CustomField2 order.public_metadata[:lowes_customer_order_number]
+      xml.CustomField3 order.public_metadata[:lowes_po_store_number]
+      xml.Source order.channel
 
       xml.Customer do
         xml.CustomerCode order.email.slice(0, 50)
