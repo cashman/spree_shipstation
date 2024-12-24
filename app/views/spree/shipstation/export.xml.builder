@@ -15,9 +15,9 @@ xml.Orders(pages: (@shipments.total_count / 50.0).ceil) {
       xml.OrderTotal 0 # order.total
       xml.TaxAmount 0 # order.tax_total
       xml.ShippingAmount 0 # order.ship_total
-      xml.CustomField1 order.number
-      xml.CustomField2 order.public_metadata[:lowes_customer_order_number]
-      xml.CustomField3 order.public_metadata[:lowes_po_store_number]
+      xml.CustomField1 order.custom_field_1_string
+      xml.CustomField2 order.custom_field_2_string
+      xml.CustomField3 order.custom_field_3_string
       xml.Source order.channel
 
       xml.Customer do
